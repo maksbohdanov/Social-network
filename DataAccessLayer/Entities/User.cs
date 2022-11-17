@@ -1,15 +1,18 @@
 ﻿using DataAccessLayer.Interfaces;
 using Microsoft.AspNetCore.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataAccessLayer.Entities
 {
     public class User: IdentityUser<Guid>, IEntity
     {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string City { get; set; }
+        public DateTime BirthDate{ get; set; }
+        public DateTime RegistrationDate { get; set; }
 
+        public virtual List<UserChat> Chats { get; set; }
+        public virtual List<Message> Messages { get; set; }
+        public virtual List<Friendship> Friendships { get; set; }
     }
 }
