@@ -13,6 +13,5 @@ namespace DataAccessLayer.Entities
 
         public virtual Chat Chat { get; set; }
         public Guid ChatId { get; set; }
-
     }
 }
