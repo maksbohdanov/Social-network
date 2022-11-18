@@ -11,8 +11,7 @@ namespace DataAccessLayer.Entities
         public DateTime BirthDate{ get; set; }
         public DateTime RegistrationDate { get; set; }
 
-        public virtual List<UserChat> Chats { get; set; }
-        public virtual List<Message> Messages { get; set; }
-        public virtual List<Friendship> Friendships { get; set; }
+        public virtual ICollection<UserChat> Chats { get; set; }
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }
