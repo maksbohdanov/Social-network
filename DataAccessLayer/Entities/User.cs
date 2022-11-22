@@ -9,7 +9,7 @@ namespace DataAccessLayer.Entities
         public string LastName { get; set; }
         public string City { get; set; }
         public DateTime BirthDate{ get; set; }
-        public DateTime RegistrationDate { get; set; }
+        public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
 
         public virtual ICollection<UserChat> Chats { get; set; }
         public virtual ICollection<Message> Messages { get; set; }

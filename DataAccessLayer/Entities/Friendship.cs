@@ -9,6 +9,6 @@
         public Guid? FriendId { get; set; }
 
         public bool IsAccepted { get; set; }
-        public DateTime CreationDate { get; set; }
+        public DateTime CreationDate { get; set; } = DateTime.UtcNow;
     }
 }

@@ -6,7 +6,7 @@ namespace DataAccessLayer.Entities
     {
         public Guid Id { get; set; }
         public string Text { get; set; }
-        public DateTime TimeCreated { get; set; }
+        public DateTime TimeCreated { get; set; } = DateTime.UtcNow;
 
         public virtual User Author{ get; set; }
         public Guid AuthorId { get; set; }
