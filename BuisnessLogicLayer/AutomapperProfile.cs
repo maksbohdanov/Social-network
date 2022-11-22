@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BuisnessLogicLayer.Models;
 using BuisnessLogicLayer.Models.DTOs;
 using DataAccessLayer.Entities;
 
@@ -13,6 +14,8 @@ namespace BuisnessLogicLayer
                 .ForMember(dto => dto.AuthorId, x => x.MapFrom(m => m.Author.Id.ToString()))
                 .ForMember(dto => dto.ChatId, x => x.MapFrom(m => m.Chat.Id.ToString()))
                 .ReverseMap();
+
+            CreateMap<MessageModel, Message>()
 
             CreateMap<Chat, ChatDto>()
                 .ForMember(dto => dto.Id, x => x.MapFrom(c => c.Id.ToString()))
