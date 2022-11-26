@@ -19,7 +19,7 @@ namespace BuisnessLogicLayer.Services
             _mapper = mapper;
         }
 
-        public async Task<MessageDto> GetMessageByIdAsync(string messageId)
+        public async Task<MessageDto> GetByIdAsync(string messageId)
         {
             var result = await _unitOfWork.Messages.GetByIdAsync(messageId);
             if(result == null) 
@@ -29,7 +29,7 @@ namespace BuisnessLogicLayer.Services
             return _mapper.Map<MessageDto>(result);
         }
 
-        public async Task<IEnumerable<MessageDto>> GetAllMessagesAsync(string chatId)
+        public async Task<IEnumerable<MessageDto>> GetAllAsync(string chatId)
         {
             var messages = await _unitOfWork.Messages
                 .FindAsync(m => m.ChatId.ToString() == chatId);

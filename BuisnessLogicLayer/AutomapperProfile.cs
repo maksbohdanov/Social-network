@@ -15,7 +15,7 @@ namespace BuisnessLogicLayer
                 .ForMember(dto => dto.ChatId, x => x.MapFrom(m => m.Chat.Id.ToString()))
                 .ReverseMap();
 
-            CreateMap<MessageModel, Message>()
+            CreateMap<MessageModel, Message>();
 
             CreateMap<Chat, ChatDto>()
                 .ForMember(dto => dto.Id, x => x.MapFrom(c => c.Id.ToString()))
@@ -25,7 +25,10 @@ namespace BuisnessLogicLayer
 
             CreateMap<User, UserDto>()
                 .ForMember(dto => dto.Id, x => x.MapFrom(u => u.Id.ToString()))
-                .ForMember(dto => dto.Chats, x => x.MapFrom(u => u.Chats.Select(c => c.ChatId.ToString())));
+                .ForMember(dto => dto.Chats, x => x.MapFrom(u => u.Chats.Select(c => c.ChatId.ToString())))
+                .ReverseMap();
+
+            CreateMap<UserRegistrationModel, User>();                
         }
     }
 }
