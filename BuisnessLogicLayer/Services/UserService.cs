@@ -93,7 +93,10 @@ namespace BuisnessLogicLayer.Services
         public async Task<bool> DeleteUserAsync(string userId)
         {
             var result = await _unitOfWork.Users.DeleteByIdAsync(userId);
+            if (!result)
+                throw new NotFoundException("User with specified id was not found");
             await _unitOfWork.SaveChangesAsync();
+            
             return result;
         }
 

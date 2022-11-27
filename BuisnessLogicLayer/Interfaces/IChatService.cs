@@ -1,4 +1,5 @@
-﻿using BuisnessLogicLayer.Models.DTOs;
+﻿using BuisnessLogicLayer.Models;
+using BuisnessLogicLayer.Models.DTOs;
 
 namespace BuisnessLogicLayer.Interfaces
 {
@@ -6,7 +7,7 @@ namespace BuisnessLogicLayer.Interfaces
     {
         Task<ChatDto> GetByIdAsync(string chatId);
         Task<IEnumerable<ChatDto>> GetAllAsync(string userId);
-        Task<ChatDto> CreateChatAsync(string firstUserId, string secondUserId);
+        Task<ChatDto> CreateChatAsync(NewChatModel chatModel);
         Task<bool> DeleteChatAsync(string chatId);
     }
 }

@@ -61,7 +61,10 @@ namespace BuisnessLogicLayer.Services
         public async Task<bool> DeleteMessageAsync(string messageId)
         {
             var result = await _unitOfWork.Messages.DeleteByIdAsync(messageId);
+            if (!result)
+                throw new NotFoundException("Message with specified id was not found");
             await _unitOfWork.SaveChangesAsync();
+          
             return result;
         }
     }
