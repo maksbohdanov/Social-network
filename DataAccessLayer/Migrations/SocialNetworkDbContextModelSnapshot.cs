@@ -30,7 +30,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Chats");
+                    b.ToTable("Chats", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Friendship", b =>
@@ -51,7 +51,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("FriendId");
 
-                    b.ToTable("Friendships");
+                    b.ToTable("Friendships", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.Message", b =>
@@ -79,7 +79,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("ChatId");
 
-                    b.ToTable("Messages");
+                    b.ToTable("Messages", (string)null);
                 });
 
             modelBuilder.Entity("DataAccessLayer.Entities.User", b =>
@@ -178,7 +178,7 @@ namespace DataAccessLayer.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("UserChat");
+                    b.ToTable("UserChat", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

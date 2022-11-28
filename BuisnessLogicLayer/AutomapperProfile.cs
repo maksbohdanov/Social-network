@@ -28,7 +28,8 @@ namespace BuisnessLogicLayer
                 .ForMember(dto => dto.Chats, x => x.MapFrom(u => u.Chats.Select(c => c.ChatId.ToString())))
                 .ReverseMap();
 
-            CreateMap<UserRegistrationModel, User>();                
+            CreateMap<UserRegistrationModel, User>()
+                .ForMember(u => u.UserName, x => x.MapFrom(um => um.Email));                
         }
     }
 }

@@ -7,9 +7,9 @@ namespace DataAccessLayer.Repositories
     {
         protected readonly SocialNetworkDbContext _context;
 
-        public Repository(SocialNetworkDbContext _context)
+        public Repository(SocialNetworkDbContext context)
         {
-            _context= _context;
+            _context= context;
         }
 
         public async Task<TEntity> GetByIdAsync(string id)

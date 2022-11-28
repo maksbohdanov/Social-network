@@ -5,9 +5,9 @@ namespace DataAccessLayer.Entities
 {
     public class User: IdentityUser<Guid>, IEntity
     {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string City { get; set; }
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
         public DateTime BirthDate{ get; set; }
         public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
 
