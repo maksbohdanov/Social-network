@@ -1,7 +1,6 @@
 ﻿using BuisnessLogicLayer.Interfaces;
 using BuisnessLogicLayer.Models;
 using BuisnessLogicLayer.Models.DTOs;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebAPI.Models;
 
@@ -17,22 +16,24 @@ namespace WebAPI.Controllers
             _chatService= chatService;
         }
 
-        [HttpGet("users/{userId}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ChatDto>))]
-        public async Task<IActionResult> GetUserChats(string userId)
-        {
-            var chats = await _chatService.GetAllAsync(userId);
-            return Ok(chats);
-        }
-
         [HttpGet("{chatId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ChatDto))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDetails))]
         public async Task<IActionResult> GetById(string chatId)
         {
             var chat = await _chatService.GetByIdAsync(chatId);
+
             return Ok(chat);
         }
+
+        [HttpGet("users/{userId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ChatDto>))]
+        public async Task<IActionResult> GetUserChats(string userId)
+        {
+            var chats = await _chatService.GetAllAsync(userId);
+
+            return Ok(chats);
+        }       
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created, Type = typeof(ChatDto))]
@@ -40,6 +41,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> CreateChat([FromBody] NewChatModel newChat)
         {
             var createdChat = await _chatService.CreateChatAsync(newChat);
+
             return CreatedAtAction(nameof(GetById), new { id = createdChat.Id }, createdChat);
         }
 
@@ -50,6 +52,7 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> DeleteById(string chatId)
         {
             var result = await _chatService.DeleteChatAsync(chatId);
+
             return Ok(result);
         }
     }

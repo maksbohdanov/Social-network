@@ -37,7 +37,7 @@ namespace BuisnessLogicLayer.Services
             return _mapper.Map<IEnumerable<MessageDto>>(messages);
         }
 
-        public async Task<MessageDto> SendMessageAsync(string userId, string chatId, MessageModel messageModel)
+        public async Task<MessageDto> SendMessageAsync(MessageModel messageModel)
         {
             var message = _mapper.Map<Message>(messageModel);
             await _unitOfWork.Messages.CreateAsync(message);
@@ -46,7 +46,7 @@ namespace BuisnessLogicLayer.Services
             return _mapper.Map<MessageDto>(message);
         }
 
-        public async Task EditMessageAsync(string messageId, MessageModel model)
+        public async Task<MessageDto> EditMessageAsync(string messageId, MessageModel model)
         {
             var message = await _unitOfWork.Messages.GetByIdAsync(messageId);
             if (message == null)
@@ -56,6 +56,7 @@ namespace BuisnessLogicLayer.Services
             message.Text= model.Text;
             await _unitOfWork.Messages.UpdateAsync(message);
             await _unitOfWork.SaveChangesAsync();
+            return _mapper.Map<MessageDto>(message);
         }
 
         public async Task<bool> DeleteMessageAsync(string messageId)

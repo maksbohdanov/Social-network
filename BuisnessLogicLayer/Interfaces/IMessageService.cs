@@ -7,8 +7,8 @@ namespace BuisnessLogicLayer.Interfaces
     {
         Task<MessageDto> GetByIdAsync(string messageId);
         Task<IEnumerable<MessageDto>> GetAllAsync(string chatId);
-        Task<MessageDto> SendMessageAsync(string userId, string chatId, MessageModel messageModel);
-        Task EditMessageAsync(string messageId, MessageModel model);
+        Task<MessageDto> SendMessageAsync(MessageModel messageModel);
+        Task<MessageDto> EditMessageAsync(string messageId, MessageModel model);
         Task<bool> DeleteMessageAsync(string messageId);
     }
 }
