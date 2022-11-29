@@ -28,7 +28,7 @@ namespace WebAPI.Middlewares
 
                     default:
                         context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                        error.Message = "Internal error occured. Please try later.";
+                        error.Message = "Internal error occured. Please try later." + "\n" + ex.Message;
                         break;
                 }
 

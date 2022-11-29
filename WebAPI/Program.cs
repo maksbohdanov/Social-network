@@ -11,13 +11,14 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using FluentValidation;
 using WebAPI.Middlewares;
+using FluentValidation.AspNetCore;
+using BuisnessLogicLayer.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -75,14 +76,20 @@ builder.Services.Configure<IdentityOptions>(options =>
 
 builder.Services.AddTransient<ErrorHandlerMiddleware>();
 
-builder.Services.AddControllers(opt => {
+builder.Services.AddFluentValidationAutoValidation();
+builder.Services.AddFluentValidationClientsideAdapters();
+builder.Services.AddValidatorsFromAssemblyContaining<MessageValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<NewChatValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UserRegistrationValidator>();
+
+builder.Services.AddControllers(opt =>
+{
     var policy = new AuthorizationPolicyBuilder("Bearer").RequireAuthenticatedUser().Build();
     opt.Filters.Add(new AuthorizeFilter(policy));
 });
 
 builder.Services.AddRouting(options => options.LowercaseUrls = true);
 
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(s =>
             {
@@ -114,7 +121,6 @@ builder.Services.AddSwaggerGen(s =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
