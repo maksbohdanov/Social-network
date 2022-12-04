@@ -45,7 +45,7 @@ namespace WebAPI.Controllers
         {
             var user = await _userService.RegisterAsync(model);
 
-            return CreatedAtAction(nameof(GetById), new { id = user.Id }, user);
+            return CreatedAtAction(nameof(Register), new { id = user.Id }, user);
         }
 
         [HttpPost("login")]
