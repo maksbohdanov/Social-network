@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccessLayer", "DataAcce
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "SocialNetwork.Client", "SocialNetwork.Client\SocialNetwork.Client.esproj", "{F3E69825-8521-4018-B298-F3329CA88781}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork.Tests", "SocialNetwork.Tests\SocialNetwork.Tests.csproj", "{608074DD-ACD2-4906-B55A-8CBB296D7955}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,10 @@ Global
 		{F3E69825-8521-4018-B298-F3329CA88781}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3E69825-8521-4018-B298-F3329CA88781}.Release|Any CPU.Build.0 = Release|Any CPU
 		{F3E69825-8521-4018-B298-F3329CA88781}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{608074DD-ACD2-4906-B55A-8CBB296D7955}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{608074DD-ACD2-4906-B55A-8CBB296D7955}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{608074DD-ACD2-4906-B55A-8CBB296D7955}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{608074DD-ACD2-4906-B55A-8CBB296D7955}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
