@@ -152,4 +152,4 @@ using (var scope = app.Services.CreateAsyncScope())
     var services = scope.ServiceProvider;
     DataSeeder.Run(services).Wait();
 }
-app.Run(); 
+app.Run();

@@ -15,5 +15,4 @@
   <ItemGroup>
     <ProjectReference Include="..\BuisnessLogicLayer\BuisnessLogicLayer.csproj" />
   </ItemGroup>
-
 </Project>

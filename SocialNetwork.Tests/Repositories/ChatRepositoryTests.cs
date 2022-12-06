@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Repositories;
+using FluentAssertions;
 using SocialNetwork.Tests.Helpers;
 
 namespace SocialNetwork.Tests.Repositories
@@ -31,7 +32,7 @@ namespace SocialNetwork.Tests.Repositories
         [TestCaseSource(nameof(guids))]
         public async Task ChatRepository_GetByIdAsync_ReturnsSingleValue(Guid id)
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var chatRepository = new ChatRepository(context);
 
@@ -45,7 +46,7 @@ namespace SocialNetwork.Tests.Repositories
         [Test]
         public async Task ChatRepository_GetAllAsync_ReturnsAllValues()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var chatRepository = new ChatRepository(context);
             var chats = await chatRepository.GetAllAsync();
@@ -56,7 +57,7 @@ namespace SocialNetwork.Tests.Repositories
         [TestCase("Hi!")]
         public async Task ChatRepository_FindAsync_ReturnsCorrectValue(string text)
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var chatRepository = new ChatRepository(context);
 
@@ -70,7 +71,7 @@ namespace SocialNetwork.Tests.Repositories
         [Test]
         public async Task ChatRepository_AddAsync_AddsValueToDatabase()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var chatRepository = new ChatRepository(context);
             var chat = new Chat();
@@ -85,19 +86,21 @@ namespace SocialNetwork.Tests.Repositories
         [Test]
         public async Task ChatRepository_Update_DoesNotThrow()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var chatRepository = new ChatRepository(context);
             var chat = expectedChats[0];
             chat.Id = Guid.Empty;
 
-            Assert.DoesNotThrowAsync(() => chatRepository.UpdateAsync(chat));
+            Func<Task> act = async () => await chatRepository.UpdateAsync(chat);
+
+            await act.Should().NotThrowAsync();
         }
 
         [Test]
         public async Task ChatRepository_DeleteByIdAsync_DeletesEntity()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var chatRepository = new ChatRepository(context);
 

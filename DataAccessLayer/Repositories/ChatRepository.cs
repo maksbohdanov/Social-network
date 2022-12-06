@@ -16,8 +16,8 @@ namespace DataAccessLayer.Repositories
         public override async Task<IEnumerable<Chat>> GetAllAsync()
         {
             return await _context.Chats
-                .Include(c => c.Users).AsNoTracking()
-                .Include(c => c.Messages).AsNoTracking()
+                .Include(c => c.Users)
+                .Include(c => c.Messages)
                 .ToListAsync();
         }
     }

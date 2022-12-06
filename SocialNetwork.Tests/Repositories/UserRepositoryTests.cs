@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Repositories;
+using FluentAssertions;
 using SocialNetwork.Tests.Helpers;
 
 namespace SocialNetwork.Tests.Repositories
@@ -11,16 +12,16 @@ namespace SocialNetwork.Tests.Repositories
         static Guid[] guids = new Guid[] {new Guid("0f8fad5b-d9cb-469f-a165-70867728950e"), new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae8")};
         private List<User> expectedUsers = new List<User>()
         {
-            new User(){FirstName = "FirstName1", LastName = "LastName1", City = "City1", BirthDate = DateTime.Today, Id = new Guid("0f8fad5b-d9cb-469f-a165-70867728950e")},
-            new User(){FirstName = "FirstName2", LastName = "LastName2", City = "City2", BirthDate = DateTime.Today, Id = new Guid("30dd879c-ee2f-11db-8314-0800200c9a66")},
-            new User(){FirstName = "FirstName3", LastName = "LastName3", City = "City3", BirthDate = DateTime.Today, Id = new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae7")},
-            new User(){FirstName = "FirstName4", LastName = "LastName4", City = "City4", BirthDate = DateTime.Today, Id = new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae8")}
+            new User(){FirstName = "FirstName1", LastName = "LastName1", Email ="email1@test.com", City = "City1", BirthDate = DateTime.Today, Id = new Guid("0f8fad5b-d9cb-469f-a165-70867728950e")},
+            new User(){FirstName = "FirstName2", LastName = "LastName2", Email ="email2@test.com", City = "City2", BirthDate = DateTime.Today, Id = new Guid("30dd879c-ee2f-11db-8314-0800200c9a66")},
+            new User(){FirstName = "FirstName3", LastName = "LastName3", Email = "email3@test.com", City = "City3", BirthDate = DateTime.Today, Id = new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae7")},
+            new User(){FirstName = "FirstName4", LastName = "LastName4", Email = "email4@test.com", City = "City4", BirthDate = DateTime.Today, Id = new Guid("7c9e6679-7425-40de-944b-e07fc1f90ae8")}
         };      
         
         [TestCaseSource(nameof(guids))]
         public async Task UserRepository_GetByIdAsync_ReturnsSingleValue(Guid id)
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var userRepository = new UserRepository(context);
 
@@ -34,7 +35,7 @@ namespace SocialNetwork.Tests.Repositories
         [Test]
         public async Task UserRepository_GetAllAsync_ReturnsAllValues()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var userRepository = new UserRepository(context);
             var users = await userRepository.GetAllAsync();
@@ -45,7 +46,7 @@ namespace SocialNetwork.Tests.Repositories
         [TestCase("City1")]
         public async Task UserRepository_FindAsync_ReturnsCorrectValue(string city)
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var userRepository = new UserRepository(context);
 
@@ -59,7 +60,7 @@ namespace SocialNetwork.Tests.Repositories
         [Test]
         public async Task UserRepository_AddAsync_AddsValueToDatabase()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var userRepository = new UserRepository(context);
             var user = new User
@@ -76,19 +77,22 @@ namespace SocialNetwork.Tests.Repositories
         [Test]
         public async Task UserRepository_Update_DoesNotThrow()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var userRepository = new UserRepository(context);
             var user = expectedUsers[0];
             user.FirstName = "New FirstName";
 
-            Assert.DoesNotThrowAsync(() =>  userRepository.UpdateAsync(user));
+
+            Func<Task> act = async () => await userRepository.UpdateAsync(user);
+
+            await act.Should().NotThrowAsync();
         }
 
         [Test]
         public async Task UserRepository_DeleteByIdAsync_DeletesEntity()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var userRepository = new UserRepository(context);
 

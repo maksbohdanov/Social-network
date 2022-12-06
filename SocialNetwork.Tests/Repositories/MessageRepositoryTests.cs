@@ -1,6 +1,7 @@
 ﻿using DataAccessLayer;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Repositories;
+using FluentAssertions;
 using SocialNetwork.Tests.Helpers;
 
 namespace SocialNetwork.Tests.Repositories
@@ -26,7 +27,7 @@ namespace SocialNetwork.Tests.Repositories
         [TestCaseSource(nameof(guids))]
         public async Task MessageRepository_GetByIdAsync_ReturnsSingleValue(Guid id)
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var messageRepository = new MessageRepository(context);
 
@@ -40,7 +41,7 @@ namespace SocialNetwork.Tests.Repositories
         [Test]
         public async Task MessageRepository_GetAllAsync_ReturnsAllValues()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var messageRepository = new MessageRepository(context);
             var messages = await messageRepository.GetAllAsync();
@@ -51,7 +52,7 @@ namespace SocialNetwork.Tests.Repositories
         [TestCase("Hello!")]
         public async Task MessageRepository_FindAsync_ReturnsCorrectValue(string text)
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var messageRepository = new MessageRepository(context);
 
@@ -65,7 +66,7 @@ namespace SocialNetwork.Tests.Repositories
         [Test]
         public async Task MessageRepository_AddAsync_AddsValueToDatabase()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var messageRepository = new MessageRepository(context);
             var message = new Message
@@ -82,19 +83,21 @@ namespace SocialNetwork.Tests.Repositories
         [Test]
         public async Task MessageRepository_Update_DoesNotThrow()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var messageRepository = new MessageRepository(context);
             var message = expectedMessages[0];
             message.Text = "Edited text";
 
-            Assert.DoesNotThrowAsync(() =>  messageRepository.UpdateAsync(message));
+            Func<Task> act = async () => await messageRepository.UpdateAsync(message);
+
+            await act.Should().NotThrowAsync();
         }
 
         [Test]
         public async Task MessageRepository_DeleteByIdAsync_DeletesEntity()
         {
-            using var context = new SocialNetworkDbContext(RepositoryHelper.GetForumDbOptions());
+            using var context = new SocialNetworkDbContext(UnitTestHelper.GetForumDbOptions());
 
             var messageRepository = new MessageRepository(context);
 

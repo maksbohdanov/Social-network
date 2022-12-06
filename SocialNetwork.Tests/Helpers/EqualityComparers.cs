@@ -15,6 +15,7 @@ namespace SocialNetwork.Tests.Helpers
             return x.Id == y.Id &&
                 x.FirstName == y.FirstName &&
                 x.LastName == y.LastName &&
+                x.Email == y.Email &&
                 x.City == y.City &&
                 x.BirthDate == y.BirthDate &&
                 x.Email == y.Email;
@@ -66,5 +67,4 @@ namespace SocialNetwork.Tests.Helpers
             return obj.GetHashCode();
         }
     }
-
 }
