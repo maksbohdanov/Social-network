@@ -40,8 +40,6 @@ namespace DataAccessLayer
                 .HasForeignKey(m => m.ChatId);
 
             builder.Entity<Friendship>()
-                .HasKey(f => new { f.UserId, f.FriendId });
-            builder.Entity<Friendship>()
                 .HasOne(f => f.User)
                 .WithMany()
                 .HasForeignKey(f => f.UserId)

@@ -7,6 +7,7 @@ namespace DataAccessLayer.Interfaces
         IRepository<Chat> Chats { get; }
         IRepository<Message> Messages { get; }
         IRepository<User> Users { get; }
+        IRepository<Friendship> Friendships { get; }
 
         Task SaveChangesAsync();
     }
