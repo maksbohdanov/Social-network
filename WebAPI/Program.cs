@@ -28,6 +28,7 @@ builder.Services.AddDbContext<SocialNetworkDbContext>(x => x.UseSqlServer(connec
 builder.Services.AddScoped<IRepository<Message>, MessageRepository>();
 builder.Services.AddScoped<IRepository<Chat>, ChatRepository>();
 builder.Services.AddScoped<IRepository<User>, UserRepository>();
+builder.Services.AddScoped<IRepository<Friendship>, FriendshipRepository>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var mapperConfig = new MapperConfiguration(mc =>
@@ -38,6 +39,7 @@ builder.Services.AddSingleton(mapper);
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IChatService, ChatService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IFriendshipService, FriendshipService>();
 
 builder.Services.AddIdentity<User, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<SocialNetworkDbContext>()

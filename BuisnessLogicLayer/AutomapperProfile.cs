@@ -29,7 +29,14 @@ namespace BuisnessLogicLayer
                 .ReverseMap();
 
             CreateMap<UserRegistrationModel, User>()
-                .ForMember(u => u.UserName, x => x.MapFrom(um => um.Email));                
+                .ForMember(u => u.UserName, x => x.MapFrom(um => um.Email));
+
+            CreateMap<Friendship, FriendshipDto>()
+                .ForMember(dto => dto.Id, x => x.MapFrom(u => u.Id.ToString()))
+                .ForMember(dto => dto.UserId, x => x.MapFrom(u => u.UserId.ToString()))
+                .ForMember(dto => dto.FriendId, x => x.MapFrom(u => u.FriendId.ToString()))
+                .ForMember(dto => dto.FirstName, x => x.MapFrom(u => u.Friend.FirstName))
+                .ForMember(dto => dto.LastName, x => x.MapFrom(u => u.Friend.LastName));
         }
     }
 }

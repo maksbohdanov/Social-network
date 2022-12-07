@@ -11,5 +11,9 @@ namespace BuisnessLogicLayer.Interfaces
         Task<string> LoginAsync(LoginModel loginModel);
         Task<UserDto> UpdateAsync(UserDto updateModel);
         Task<bool> DeleteUserAsync(string userId);
+        Task AddToFriendsAsync(string userId, string friendId);
+        Task ApproveFriendshipRequestAsync(string friendshipId, bool answer);
+        Task<IEnumerable<FriendshipDto>> GetFriendshipRequestsAsync(string userId);
+        Task<IEnumerable<UserDto>> GetFriendsAsync(string userId);
     }
 }

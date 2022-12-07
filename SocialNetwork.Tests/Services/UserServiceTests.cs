@@ -20,6 +20,7 @@ namespace SocialNetwork.Tests.Services
         private IUserService _userService;
         private Mock<UserManager<User>> _userManager;
         private Mock<IUnitOfWork> _unitOfWork;
+        private Mock<IFriendshipService> _friendshipService;
         private Mock<IConfiguration> _configuration;
         private List<User> _users = new();
 
@@ -28,12 +29,14 @@ namespace SocialNetwork.Tests.Services
         {
             _userManager = UnitTestHelper.MockUserManager(_users);
             _unitOfWork = new Mock<IUnitOfWork>();
+            _friendshipService = new Mock<IFriendshipService>();
             _configuration = new Mock<IConfiguration>();
 
             _userService = new UserService(
                 _unitOfWork.Object,
                 UnitTestHelper.CreateMapperProfile(),
                 _userManager.Object,
+                _friendshipService.Object,
                 _configuration.Object);
         }
 
