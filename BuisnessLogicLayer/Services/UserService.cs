@@ -3,12 +3,12 @@ using BuisnessLogicLayer.Exceptions;
 using BuisnessLogicLayer.Interfaces;
 using BuisnessLogicLayer.Models;
 using BuisnessLogicLayer.Models.DTOs;
+using BuisnessLogicLayer.Extensions;
 using DataAccessLayer.Entities;
 using DataAccessLayer.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using System.Collections;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
@@ -50,6 +50,23 @@ namespace BuisnessLogicLayer.Services
             return _mapper.Map<IEnumerable<UserDto>>(users);
         }
 
+        public async Task<IEnumerable<UserDto>> FindByFilterAsync(string filter, string userId)
+        {
+            var requester = await _userManager.FindByIdAsync(userId);
+            var users = await _unitOfWork.Users.FindAsync(x =>
+                x.Email != "admin@admin.com" &&
+                x.Id.ToString() != userId &&
+                    (x.FirstName.ToLower().Contains(filter.ToLower()) ||
+                    x.LastName.ToLower().Contains(filter.ToLower()) ||
+                    x.City.ToLower().Contains(filter.ToLower())));
+
+            var result = await users
+                .Where(async x => !await _friendshipService.CheckIfFriendshipExists(requester.Id.ToString(), x.Id.ToString()));
+            
+            
+            return  _mapper.Map<IEnumerable<UserDto>>(result);
+        }
+
         public async Task<UserDto> RegisterAsync(UserRegistrationModel registerModel)
         {
             var user = _mapper.Map<User>(registerModel);
@@ -81,8 +98,15 @@ namespace BuisnessLogicLayer.Services
         public async Task<UserDto> UpdateAsync(UserDto updateModel)
         {
             var user = await _userManager.FindByIdAsync(updateModel.Id);
+
             if (user == null)
                 throw new NotFoundException("User with specified id was not found");
+
+            user.FirstName= updateModel.FirstName;
+            user.LastName = updateModel.LastName;
+            user.Email = updateModel.Email;
+            user.City = updateModel.City;
+            user.BirthDate = updateModel.BirthDate;
 
             var result = await _userManager.UpdateAsync(user);
 
@@ -91,11 +115,14 @@ namespace BuisnessLogicLayer.Services
                 var message = string.Join(" ", result.Errors.Select(e => e.Description));
                 throw new UpdateUserException(message);
             }
+            await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<UserDto>(user);
         }
 
         public async Task<bool> DeleteUserAsync(string userId)
         {
+            if(await IsAdmin(userId))
+                return false;
             var result = await _unitOfWork.Users.DeleteByIdAsync(userId);
             if (!result)
                 throw new NotFoundException("User with specified id was not found");
@@ -111,8 +138,8 @@ namespace BuisnessLogicLayer.Services
             if (user == null || friend == null)
                 throw new NotFoundException("User with specified id was not found");
 
-            _ = await _friendshipService.FindByUsersAsync(userId, friendId)
-                        ?? await _friendshipService.CreateFriendshipAsync(user, friend);
+            if(await _friendshipService.FindByUsersAsync(userId, friendId) == null)
+                await _friendshipService.CreateFriendshipAsync(user, friend);
         }
 
         public async Task ApproveFriendshipRequestAsync(string friendshipId, bool answer)
@@ -149,6 +176,16 @@ namespace BuisnessLogicLayer.Services
                     .Select(x => x.Friend));
 
             return _mapper.Map<IEnumerable<UserDto>>(friends);
+        }
+
+        private async Task<bool> IsAdmin(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new NotFoundException("User with specified id was not found");
+            }
+            return await _userManager.IsInRoleAsync(user, "Admin");
         }
 
         private async Task<string> GenerateToken(User user)

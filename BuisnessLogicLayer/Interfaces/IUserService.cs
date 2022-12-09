@@ -7,6 +7,7 @@ namespace BuisnessLogicLayer.Interfaces
     {
         Task<UserDto> GetByIdAsync(string userId);
         Task<IEnumerable<UserDto>> GetAllAsync();
+        Task<IEnumerable<UserDto>> FindByFilterAsync(string filter, string userId);
         Task<UserDto> RegisterAsync(UserRegistrationModel registerModel);
         Task<string> LoginAsync(LoginModel loginModel);
         Task<UserDto> UpdateAsync(UserDto updateModel);
