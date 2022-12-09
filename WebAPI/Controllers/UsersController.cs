@@ -3,7 +3,9 @@ using BuisnessLogicLayer.Models;
 using BuisnessLogicLayer.Models.DTOs;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using WebAPI.Models;
+using System.Security.Claims;
 
 namespace WebAPI.Controllers
 {
@@ -32,10 +34,21 @@ namespace WebAPI.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
         public async Task<IActionResult> GetAll()
         {
-            var users = await _userService.GetAllAsync();
+            var users =  await _userService.GetAllAsync();
 
             return Ok(users);
         }
+
+        [HttpGet("filter/{filter}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
+        public async Task<IActionResult> FindByFilterAll(string filter)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var users = await _userService.FindByFilterAsync(filter, userId);
+            
+            return Ok(users);
+        }
+
 
         [HttpPost("register")]
         [AllowAnonymous]
@@ -69,6 +82,46 @@ namespace WebAPI.Controllers
             var user = await _userService.UpdateAsync(model);
 
             return Ok(user);
+        }
+
+        [HttpGet("{userId}/friends")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<UserDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDetails))]
+        public async Task<IActionResult> GetFriends(string userId)
+        {
+            var friends = await _userService.GetFriendsAsync(userId);
+
+            return Ok(friends);
+        }
+
+        [HttpPut("{userId}/{friendId}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDetails))]
+        public async Task<IActionResult> AddToFriends(string userId, string friendId)
+        {
+            await _userService.AddToFriendsAsync(userId, friendId);
+
+            return Ok();
+        }
+
+        [HttpPut("friendship/{friendshipId}/{answer}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDetails))]
+        public async Task<IActionResult> ApproveFriendship(string friendshipId, bool answer)
+        {
+            await _userService.ApproveFriendshipRequestAsync(friendshipId, answer);
+
+            return Ok();
+        }
+
+        [HttpGet("{userId}/requests")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<FriendshipDto>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(ErrorDetails))]
+        public async Task<IActionResult> GetFriendshipRequests(string userId)
+        {
+            var requests = await _userService.GetFriendshipRequestsAsync(userId);
+
+            return Ok(requests);
         }
 
         [HttpDelete("{userId}")]

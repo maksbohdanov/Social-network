@@ -83,6 +83,7 @@ builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<MessageValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<NewChatValidator>();
 builder.Services.AddValidatorsFromAssemblyContaining<UserRegistrationValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<UserEditValidator>();
 
 builder.Services.AddControllers(opt =>
 {

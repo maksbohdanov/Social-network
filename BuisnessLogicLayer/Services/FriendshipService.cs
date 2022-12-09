@@ -6,7 +6,7 @@ using DataAccessLayer.Interfaces;
 
 namespace BuisnessLogicLayer.Services
 {
-    public class FriendshipService: IFriendshipService
+    public class FriendshipService : IFriendshipService
     {
         private readonly IUnitOfWork _unitOfWork;
 
@@ -25,19 +25,16 @@ namespace BuisnessLogicLayer.Services
             return result;
         }
 
-        public async Task<Friendship> FindByUsersAsync(string userId, string friendId)
+        public async Task<Friendship?> FindByUsersAsync(string userId, string friendId)
         {
             var friendship = (await _unitOfWork.Friendships
                     .FindAsync(x => (x.UserId.ToString() == userId && x.FriendId.ToString() == friendId) ||
                               (x.UserId.ToString() == friendId && x.FriendId.ToString() == userId)))
                 .FirstOrDefault();
 
-            if (friendship == null)
-                throw new NotFoundException("Specified friendship was not found");
-
             return friendship;
         }
-        
+
         public async Task<IEnumerable<Friendship>> GetRequestsAsync(string userId)
         {
             var friendships = await _unitOfWork.Friendships
@@ -66,6 +63,11 @@ namespace BuisnessLogicLayer.Services
             await _unitOfWork.SaveChangesAsync();
 
             return await GetByIdAsync(friendship.Id.ToString());
+        }
+
+        public async Task<bool> CheckIfFriendshipExists(string userId, string friendId)
+        {
+            return await FindByUsersAsync(userId, friendId) != null;
         }
 
         public async Task<bool> DeleteFriendshipAsync(string id)
