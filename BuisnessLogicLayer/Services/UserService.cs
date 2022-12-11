@@ -203,7 +203,13 @@ namespace BuisnessLogicLayer.Services
                 authClaims.Add(new Claim(ClaimTypes.Role, userRole));
             }
 
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+            var secret = _configuration["JWT:Secret"];
+            SymmetricSecurityKey authSigningKey = default;
+
+            if (secret != null)
+            {
+                authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secret));
+            }
 
             var token = new JwtSecurityToken(
                 issuer: _configuration["JWT:ValidIssuer"],

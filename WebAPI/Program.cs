@@ -115,9 +115,6 @@ builder.Services.AddSwaggerGen(s =>
                 {
                     {securityScheme, Array.Empty<string>()}
                 });
-                //var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                //var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                //s.IncludeXmlComments(xmlPath);
             });
 
 

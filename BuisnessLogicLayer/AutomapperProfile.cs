@@ -11,8 +11,8 @@ namespace BuisnessLogicLayer
         {
             CreateMap<Message, MessageDto>()
                 .ForMember(dto => dto.Id, x => x.MapFrom(m => m.Id.ToString()))
-                .ForMember(dto => dto.AuthorId, x => x.MapFrom(m => m.Author.Id.ToString()))
-                .ForMember(dto => dto.ChatId, x => x.MapFrom(m => m.Chat.Id.ToString()))
+                .ForMember(dto => dto.AuthorId, x => x.MapFrom(m => m.AuthorId.ToString()))
+                .ForMember(dto => dto.ChatId, x => x.MapFrom(m => m.ChatId.ToString()))
                 .ReverseMap();
 
             CreateMap<MessageModel, Message>();

@@ -2,7 +2,7 @@
 {
     public interface IRepository<TEntity>
     {
-        Task<TEntity> GetByIdAsync(string id);
+        Task<TEntity?> GetByIdAsync(string id);
         Task<IEnumerable<TEntity>> GetAllAsync();
         Task<IEnumerable<TEntity>> FindAsync(Func<TEntity, bool> predicate);
         Task<bool> UpdateAsync(TEntity entity);

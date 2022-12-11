@@ -8,6 +8,7 @@ namespace BuisnessLogicLayer.Interfaces
         Task<ChatDto> GetByIdAsync(string chatId);
         Task<IEnumerable<ChatDto>> GetAllAsync(string userId);
         Task<ChatDto> CreateChatAsync(NewChatModel chatModel);
+        Task<bool> CheckIfChatExists(NewChatModel chatModel);
         Task<bool> DeleteChatAsync(string chatId);
     }
 }

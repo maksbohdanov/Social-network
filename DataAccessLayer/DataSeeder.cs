@@ -4,7 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace DataAccessLayer
 {
-    public class DataSeeder
+    public static class DataSeeder
     {      
         public static async Task Run(IServiceProvider serviceProvider)
         {
@@ -16,7 +16,7 @@ namespace DataAccessLayer
             var roleManager = provider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
             await Initialize(userManager, roleManager);
 
-            if (!context.Friendships.Any())
+            if (!context!.Friendships.Any())
             {
                 await Seed(context, userManager);
             }

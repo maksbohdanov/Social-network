@@ -92,7 +92,7 @@ namespace SocialNetwork.Tests.Services
 
             await _chatService.CreateChatAsync(model);
             _unitOfWork.Verify(x => x.Chats.CreateAsync(It.IsAny<Chat>()), Times.Once);
-            _unitOfWork.Verify(x => x.SaveChangesAsync(), Times.Once);
+            _unitOfWork.Verify(x => x.SaveChangesAsync(), Times.Exactly(2));
         }
 
         [TestCase("")]

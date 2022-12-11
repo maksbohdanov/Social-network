@@ -40,8 +40,14 @@ namespace BuisnessLogicLayer.Services
 
         public async Task<ChatDto> CreateChatAsync(NewChatModel chatModel)
         {
+            if(await CheckIfChatExists(chatModel))
+            {
+                var chat = await GetAllAsync(chatModel.FirstUserId);
+                return chat.First(x => x.Users.Contains(chatModel.SecondUserId));
+            }
             var newChat = new Chat();
             await _unitOfWork.Chats.CreateAsync(newChat);
+            await _unitOfWork.SaveChangesAsync();
 
             var createdChat = await _unitOfWork.Chats.GetByIdAsync(newChat.Id.ToString());
 
@@ -61,6 +67,13 @@ namespace BuisnessLogicLayer.Services
 
             await _unitOfWork.SaveChangesAsync();
             return _mapper.Map<ChatDto>(newChat);
+        }
+
+
+        public async Task<bool> CheckIfChatExists(NewChatModel chatModel)
+        {
+            var firstUserChats = await GetAllAsync(chatModel.FirstUserId);
+            return firstUserChats.Any(x => x.Users.Contains(chatModel.SecondUserId));
         }
 
         public async Task<bool> DeleteChatAsync(string chatId)

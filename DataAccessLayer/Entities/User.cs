@@ -11,7 +11,7 @@ namespace DataAccessLayer.Entities
         public DateTime BirthDate{ get; set; }
         public DateTime RegistrationDate { get; set; } = DateTime.UtcNow;
 
-        public virtual ICollection<UserChat> Chats { get; set; }
-        public virtual ICollection<Message> Messages { get; set; }
+        public virtual ICollection<UserChat> Chats { get; set; } = new HashSet<UserChat>(); 
+        public virtual ICollection<Message> Messages { get; set; } = new HashSet<Message>();
     }
 }

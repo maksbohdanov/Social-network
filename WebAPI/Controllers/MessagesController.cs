@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         {
             var sentMessage = await _messageService.SendMessageAsync(model);
 
-            return CreatedAtAction(nameof(GetById), new { id = sentMessage.Id }, sentMessage);
+            return CreatedAtAction(nameof(SendMessage), new { id = sentMessage.Id }, sentMessage);
         }
 
         [HttpPut("{messageId}")]

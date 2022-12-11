@@ -39,7 +39,7 @@ namespace BuisnessLogicLayer.Services
         {
             var friendships = await _unitOfWork.Friendships
                 .FindAsync(x => x.UserId.ToString() == userId &&
-                                x.IsAccepted == false);
+                                !x.IsAccepted);
             return friendships;
         }
 

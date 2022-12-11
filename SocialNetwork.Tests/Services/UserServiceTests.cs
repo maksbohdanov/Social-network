@@ -56,7 +56,7 @@ namespace SocialNetwork.Tests.Services
             await _userService.RegisterAsync(userModel);
 
             _userManager.Verify(x => x.CreateAsync(It.IsAny<User>(), It.IsAny<string>()), Times.Once);
-            Assert.That(_users.Count, Is.EqualTo(1));
+            Assert.That(_users, Has.Count.EqualTo(1));
         }   
 
         [Test]
@@ -96,8 +96,8 @@ namespace SocialNetwork.Tests.Services
 
             var token = await _userService.LoginAsync(loginModel);
 
-            Assert.IsNotNull(token);
-            Assert.IsNotEmpty(token);
+            Assert.That(token, Is.Not.Null);
+            Assert.That(token, Is.Not.Empty);
         }
 
         [Test]
@@ -235,7 +235,8 @@ namespace SocialNetwork.Tests.Services
         {
             _unitOfWork.Setup(x => x.Users.DeleteByIdAsync(It.IsAny<string>()))
                 .ReturnsAsync(true);
-
+            _userManager.Setup(x => x.FindByIdAsync(It.IsAny<string>()))
+                .ReturnsAsync(UnitTestHelper.Users[0]);
             await _userService.DeleteUserAsync(id);
 
             _unitOfWork.Verify(x => x.Users.DeleteByIdAsync(id), Times.Once);

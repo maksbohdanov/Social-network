@@ -7,12 +7,12 @@ namespace DataAccessLayer.Repositories
     {
         protected readonly SocialNetworkDbContext _context;
 
-        public Repository(SocialNetworkDbContext context)
+        protected Repository(SocialNetworkDbContext context)
         {
             _context= context;
         }
 
-        public virtual async Task<TEntity> GetByIdAsync(string id)
+        public virtual async Task<TEntity?> GetByIdAsync(string id)
         {
             return (await GetAllAsync())
                 .FirstOrDefault(e => e.Id.ToString() == id);

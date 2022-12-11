@@ -34,7 +34,8 @@ namespace BuisnessLogicLayer.Services
             var messages = await _unitOfWork.Messages
                 .FindAsync(m => m.ChatId.ToString() == chatId);
 
-            return _mapper.Map<IEnumerable<MessageDto>>(messages);
+
+            return _mapper.Map<IEnumerable<MessageDto>>(messages.OrderBy(x => x.TimeCreated));
         }
 
         public async Task<MessageDto> SendMessageAsync(MessageModel messageModel)
@@ -43,7 +44,9 @@ namespace BuisnessLogicLayer.Services
             await _unitOfWork.Messages.CreateAsync(message);
             await _unitOfWork.SaveChangesAsync();
 
-            return _mapper.Map<MessageDto>(message);
+            var createdMessage = await _unitOfWork.Messages.GetByIdAsync(message.Id.ToString());
+
+            return _mapper.Map<MessageDto>(createdMessage);
         }
 
         public async Task<MessageDto> EditMessageAsync(string messageId, MessageModel model)

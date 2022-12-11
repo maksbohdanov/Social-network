@@ -1,8 +1,5 @@
-﻿using System.Runtime.Serialization;
-
-namespace BuisnessLogicLayer.Exceptions
+﻿namespace BuisnessLogicLayer.Exceptions
 {
-    [Serializable]
     public class SocialNetworkException: Exception
     {
         public SocialNetworkException() 
@@ -14,10 +11,6 @@ namespace BuisnessLogicLayer.Exceptions
         }
 
         public SocialNetworkException(string message, Exception inner) : base(message, inner)
-        {
-        }
-
-        protected SocialNetworkException(SerializationInfo info, StreamingContext context) : base(info, context)
         {
         }
     }

@@ -42,7 +42,7 @@ namespace WebAPI.Controllers
         {
             var createdChat = await _chatService.CreateChatAsync(newChat);
 
-            return CreatedAtAction(nameof(GetById), new { id = createdChat.Id }, createdChat);
+            return CreatedAtAction(nameof(CreateChat), new { id = createdChat.Id }, createdChat);
         }
 
 
