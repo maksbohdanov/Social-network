@@ -10,6 +10,15 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistrationComponent } from './components/registration/registration.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApiInterceptor } from './helpers/api.interceptor';
+import { ProfileComponent } from './components/profile/profile.component';
+import { ProfileEditComponent } from './components/profile-edit/profile-edit.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { UsersComponent } from './components/users/users.component';
+import { FriendsListComponent } from './components/friends-list/friends-list.component';
+import { ChatsListComponent } from './components/chats-list/chats-list.component';
+import { FriendsRequestsComponent } from './components/friends-requests/friends-requests.component';
+import { ChatComponent } from './components/chat/chat.component';
+
 
 
 
@@ -17,7 +26,15 @@ import { ApiInterceptor } from './helpers/api.interceptor';
   declarations: [
     AppComponent,
     LoginComponent,
-    RegistrationComponent    
+    RegistrationComponent,
+    ProfileComponent,
+    ProfileEditComponent,
+    NavbarComponent,
+    UsersComponent,
+    FriendsListComponent,
+    FriendsRequestsComponent,
+    ChatsListComponent,
+    ChatComponent   
   ],
   imports: [
     BrowserModule,
@@ -26,7 +43,7 @@ import { ApiInterceptor } from './helpers/api.interceptor';
     BrowserAnimationsModule,
     BrowserModule,
     FormsModule,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: ApiInterceptor, multi: true}

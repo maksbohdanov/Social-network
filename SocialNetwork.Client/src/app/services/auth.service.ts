@@ -27,8 +27,15 @@ export class AuthService {
 
   public logout() {
     localStorage.removeItem('token');
+  }
 
-    this.roter.navigate(['/']);
+  public getUserId(){
+    if(this.isLoggedIn){
+      const nameIdentifier: string = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier';
+      const decodedToken = this.jwtHelper.decodeToken(this.token);
+      
+      return decodedToken[nameIdentifier];
+    }    
   }
 
   get isLoggedIn(): boolean {
