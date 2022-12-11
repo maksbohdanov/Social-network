@@ -1,10 +1,9 @@
 export interface User {
-    fistName: string,
+    id: string,
+    firstName: string,
     lastName: string,
     city: string,
     birthDate: Date, 
     registrationDate: Date,   
-    email: string,
-    password: string
-  }
-  
+    email: string
+}

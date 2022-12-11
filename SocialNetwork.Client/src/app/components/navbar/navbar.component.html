@@ -1,0 +1,25 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" (click)="navigateToProfile()">My profile</a>     
+      <div
+        class="collapse navbar-collapse"
+        id="navbarNav"
+        mdbCollapse
+      >
+        <ul *ngIf="isAuthenticated()" class="navbar-nav">          
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="friends">Friends</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" routerLink="chats">Chats</a>
+          </li>
+          <li *ngIf="isAdmin()" class="nav-item">
+            <a class="nav-link active" routerLink ="users">Users</a>
+          </li>
+        </ul>
+      </div>
+      <a *ngIf="isAuthenticated()" routerLink="login" class="navbar-brand" (click)="logout()">Logout</a>
+      <a *ngIf="!isAuthenticated()" routerLink="login" class="navbar-brand">Login</a> 
+      <a *ngIf="!isAuthenticated()" routerLink="registration" class="navbar-brand">Sign Up</a>           
+    </div>
+  </nav>

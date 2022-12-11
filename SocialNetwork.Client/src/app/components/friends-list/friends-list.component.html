@@ -1,0 +1,71 @@
+<div class="input-group">
+    <div class="form-outline">
+      <input type="text" id="form1"  [(ngModel)]="filterBy" (ngModelChange)="filter()" class="form-control"  placeholder="Click to global search"/>      
+    </div>
+    <button type="button" class="btn btn-primary" (click)="findUsers()">
+        <i class="fas fa-search"></i>
+    </button>
+    <div *ngIf="requests && requests.length > 0" >
+        <a routerLink="requests">New({{requests.length}})</a>
+    </div>   
+</div>
+  
+  <table class="table" *ngIf="filteredFriends && filteredFriends.length > 0">
+    <tr>
+      <th style="width: 3%;"></th>
+      <th style="width: 3%;"></th>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>City</th>
+      <th>Birth Date</th>
+    </tr>
+    <tr *ngFor="let friend of filteredFriends">
+      <td>
+        <a routerLink="../profile/{{friend.id}}">
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </a>
+      </td>    
+      <td>
+        <a (click)="openChat(friend.id)">
+            <i class="fa fa-comment" aria-hidden="true"></i>
+        </a>
+       </td>  
+      <td><a>{{friend.firstName}}</a></td>
+      <td>{{friend.lastName}}</td>
+      <td>{{friend.city}}</td>
+      <td>{{friend.birthDate | date: 'shortDate'}}</td>            
+    </tr>
+  </table>
+  <div *ngIf="users && users.length > 0">
+    <hr>
+    <table class="table">
+      <tr>
+        <th style="width: 3%;"></th>
+        <th style="width: 3%;"></th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>City</th>
+        <th>Birth Date</th>
+        <th style="width: 3%"></th>
+      </tr>
+      <tr *ngFor="let user of users ">
+        <td>
+          <a routerLink="../profile/{{user.id}}">
+              <i class="fa fa-user" aria-hidden="true"></i>
+          </a>
+        </td>    
+        <td>
+          <a routerLink="../profile/{{user.id}}">
+              <i class="fa fa-comment" aria-hidden="true"></i>
+          </a>
+         </td>  
+        <td><a>{{user.firstName}}</a></td>
+        <td>{{user.lastName}}</td>
+        <td>{{user.city}}</td>
+        <td>{{user.birthDate | date: 'shortDate'}}</td>
+        <td>
+          <a><button type="button" class="btn btn-info" [disabled]="buttonDisabled" (click)="addToFriends(user.id)">Add</button></a>
+        </td>      
+      </tr>
+    </table>
+  </div>

@@ -1,0 +1,27 @@
+<table class="table">
+    <tr>
+      <th style="width: 3%;"></th>
+      <th>User</th>
+      <th>Message</th>
+      <th>Time</th>
+    </tr>
+    <tr *ngFor="let message of messages">
+      <td>
+        <a routerLink='[profile/{{message.authorId}}]'>
+            <i class="fa fa-user" aria-hidden="true"></i>
+        </a>
+      </td>
+      <td><a>{{message.authorId}}</a></td>
+      <td><a>{{message.text}}</a></td>
+      <td>{{message.timeCreated | date: 'M/d/yy h:mm:ss a'}}</td>
+    </tr>
+</table>
+
+<div class="input-group">
+    <div class="form-outline">
+      <input type="text" id="form1"  [(ngModel)]="messageContent" class="form-control" placeholder="Message..."/>      
+    </div>
+    <button type="button" (click)="sendMessage()" class="btn btn-primary">
+        <i class="fa-solid fa-paper-plane"></i>
+    </button>
+</div>

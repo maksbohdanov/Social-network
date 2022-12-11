@@ -5,5 +5,4 @@ export interface RegistrationModel {
     birthDate: Date,    
     email: string,
     password: string
-  }
-  
+}

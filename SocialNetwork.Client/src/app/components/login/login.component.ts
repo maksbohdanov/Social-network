@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit{
     this.auth.login(email, password)
       .subscribe({
         next: () => {
-          this.router.navigate(['/']);
+          this.router.navigate([`profile/${this.auth.getUserId()}`]);
         },
         error: err => {
           this.notificationService.notifyError(`Authentication failed. ${err.error?.message ?? ''}`);

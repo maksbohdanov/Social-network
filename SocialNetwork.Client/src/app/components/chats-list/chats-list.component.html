@@ -1,0 +1,8 @@
+<ul *ngFor="let chat of chats">
+    <li>
+      <a routerLink="../chats/{{chat.id}}"><span>{{chat.id}}</span></a>
+      <button  type="button" class="btn btn-danger" (click)="deleteChat(chat.id)">
+        Delete
+      </button>
+    </li>
+  </ul>
